@@ -34,7 +34,7 @@ const auth = PlaynanceAuth.init({
 | Field | Values | What it does |
 | --- | --- | --- |
 | `mode` | `"light"` (default), `"dark"` | Light or dark colors. Used by the `regular` design. |
-| `design` | `"regular"` (default), `"space"`, `"cyberpunk"`, `"gta"`, `"bossclub"` | The card's look. `regular` follows `mode`. The other four have a fixed look and ignore `mode`. Any other value is treated as `regular`. |
+| `design` | `"regular"` (default), `"space"`, `"cyberpunk"`, `"gta"`, `"bossclub"`, `"playnanceai"` | The card's look. `regular` follows `mode`. The others have a fixed look and ignore `mode`. `playnanceai` is the playnance.ai "Screen" look: a light card on a lit grey backdrop, with a mono type. Any other value is treated as `regular`. |
 
 The design applies to the connect modal, to single-method connects (`connectTo`), and to the private-key export page.
 

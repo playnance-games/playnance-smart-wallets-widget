@@ -12,7 +12,7 @@ export type ConnectDialogTheme = "light" | "dark";
  * that follows `uiConfig.mode`; the others are fixed looks drawn by the wallet's
  * sign-in page (`?design=`), and the kit only frames them here.
  */
-export type ConnectDesign = "regular" | "space" | "cyberpunk" | "gta" | "bossclub";
+export type ConnectDesign = "regular" | "space" | "cyberpunk" | "gta" | "bossclub" | "playnanceai";
 export declare const CONNECT_DESIGNS: readonly ConnectDesign[];
 /** A design the sign-in page knows by name; `regular` is no design at all. */
 export declare function namedDesign(design: ConnectDesign | undefined): Exclude<ConnectDesign, "regular"> | null;

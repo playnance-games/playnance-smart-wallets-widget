@@ -12,7 +12,7 @@ const CONNECT_THEME = (() => {
 document.documentElement.dataset.siteTheme = CONNECT_THEME
 
 // Look of the connect modal and of the single-method connects (no-modal).
-const CONNECT_DESIGNS = ["regular", "space", "cyberpunk", "gta", "bossclub"]
+const CONNECT_DESIGNS = ["regular", "space", "cyberpunk", "gta", "bossclub", "playnanceai"]
 const CONNECT_DESIGN = (() => {
   const fromUrl = new URLSearchParams(window.location.search).get("design")
   return CONNECT_DESIGNS.includes(fromUrl) ? fromUrl : "regular"

@@ -679,7 +679,14 @@ function normalizeQuantity(value) {
 }
 
 // authentication/wallet/kit/src/ui.ts
-var CONNECT_DESIGNS = ["regular", "space", "cyberpunk", "gta", "bossclub"];
+var CONNECT_DESIGNS = [
+  "regular",
+  "space",
+  "cyberpunk",
+  "gta",
+  "bossclub",
+  "playnanceai"
+];
 function namedDesign(design) {
   return design && design !== "regular" && CONNECT_DESIGNS.includes(design) ? design : null;
 }
@@ -699,6 +706,12 @@ var DESIGN_FRAMES = {
   bossclub: {
     shell: "display:block;width:min(440px,92vw);border:0;border-radius:28px;background:transparent;color-scheme:light;box-shadow:0 0 40px rgba(212,170,90,.28),0 24px 56px rgba(0,0,0,.75);",
     cancel: "position:absolute;top:14px;right:14px;z-index:2;display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:28px;height:28px;padding:0;border:1px solid rgba(212,170,90,.75);border-radius:50%;background:rgba(12,10,8,.9);color:#e8c98a;font:15px/1 Georgia,serif;min-height:0;overflow:hidden;cursor:pointer;"
+  },
+  // The one light design: a lighter, blurred backdrop instead of the dark one.
+  playnanceai: {
+    overlay: "position:fixed;inset:0;z-index:2147483646;display:flex;align-items:center;justify-content:center;background:rgba(22,24,27,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);padding:24px;",
+    shell: "display:block;width:min(440px,92vw);border:0;border-radius:18px;background:transparent;color-scheme:light;box-shadow:0 24px 64px rgba(0,0,0,.35),0 0 0 1px rgba(22,24,27,.08);",
+    cancel: "position:absolute;top:14px;right:14px;z-index:2;display:flex;align-items:center;justify-content:center;box-sizing:border-box;width:28px;height:28px;padding:0;border:1px solid rgba(22,24,27,.2);border-radius:8px;background:rgba(255,255,255,.9);color:#16181b;font:15px/1 'Courier New',Courier,monospace;min-height:0;overflow:hidden;cursor:pointer;box-shadow:0 1px 2px rgba(0,0,0,.08);"
   }
 };
 var THEMES = {

@@ -59,7 +59,8 @@ export type ConnectUiConfig = {
     mode?: ConnectDialogTheme;
     /**
      * Look of the connect card: `regular` (default, follows `mode`), `space`,
-     * `cyberpunk`, `gta` or `bossclub`. The named designs have a fixed look and
+     * `cyberpunk`, `gta`, `bossclub` or `playnanceai` (the playnance.ai look, a
+     * light card). The named designs have a fixed look and
      * ignore `mode`. Applies to the modal and to the single-method connects.
      */
     design?: ConnectDesign;
