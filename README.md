@@ -226,10 +226,3 @@ try {
   throw error
 }
 ```
-
-## Notes
-
-- **Confirmations.** Social logins (Google, email, SMS) sign automatically: the Playnance wallet signs without a confirmation window. The wallet's policy for your client ID can refuse some requests (error `4200`). Treat every signature as final: build the data on your side and show the user what they are approving before you call the provider.
-- **Chain.** Transactions must be for the chain in use. The provider refuses a transaction whose `chainId` differs.
-- **External wallets.** If the user signed in with MetaMask or Coinbase, `personal_sign`, `eth_signTypedData_v4`, `eth_signTransaction` and `eth_sendTransaction` go straight to that wallet's provider. The kit adds no confirmation of its own, and the signing behavior is that wallet's. Such accounts have no Playnance identity token.
-- **Identity token.** For your back end's own checks, `await auth.getAuthTokenInfo()` returns `{ idToken }`. Verify it there, as described in the wallet docs.
