@@ -1,6 +1,6 @@
 {
   "name": "@playnance/auth",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "description": "Playnance login dialog and wallet provider for any site",
   "license": "UNLICENSED",
   "type": "module",

@@ -18,7 +18,7 @@ var __privateWrapper = (obj, member, setter, getter) => ({
   }
 });
 
-// src/protocol.ts
+// authentication/wallet/kit/src/protocol.ts
 var NAMESPACE = "playnance-wallet";
 var PROTOCOL_VERSION = 1;
 var FRAME_NAME = "playnance-wallet-frame";
@@ -48,7 +48,7 @@ var ERRORS = {
   internal: -32603
 };
 
-// src/channel.ts
+// authentication/wallet/kit/src/channel.ts
 var ProviderRpcError = class extends Error {
   constructor(code, message, data) {
     super(message);
@@ -142,7 +142,7 @@ function randomId() {
   return Array.from(bytes, (byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-// src/playblock.ts
+// authentication/wallet/kit/src/playblock.ts
 var PLAYBLOCK = {
   chainId: 1829,
   name: "Playblock",
@@ -184,7 +184,7 @@ function encodeBalanceOf(owner) {
   return `0x70a08231${word(owner.slice(2))}`;
 }
 
-// src/injected.ts
+// authentication/wallet/kit/src/injected.ts
 var REJECTED = "The wallet was closed before an account was chosen.";
 function externalWalletLabel(wallet) {
   return wallet === "metamask" ? "MetaMask" : "Coinbase Wallet";
@@ -318,7 +318,7 @@ function readable(error, fallback) {
   return clean;
 }
 
-// src/playblock-signin.ts
+// authentication/wallet/kit/src/playblock-signin.ts
 var PLAYBLOCK_CUSTOMER_API = "https://api.playblock.io/v2/customer";
 var ATTRIBUTION_KEYS = ["clientId", "sessionId", "fbclid", "fbp", "scid", "scClickId", "tblci", "pwaId"];
 function attributionFields(attribution) {
@@ -377,7 +377,7 @@ async function playblockSignIn(request) {
   return { accessToken, profile: record(answer?.profile), meta: record(answer?.meta) };
 }
 
-// src/provider.ts
+// authentication/wallet/kit/src/provider.ts
 var REFUSED = /* @__PURE__ */ new Set([
   "eth_private_key",
   "private_key",
@@ -648,7 +648,7 @@ function normalizeQuantity(value) {
   throw new ProviderRpcError(ERRORS.invalidParams, "Transaction quantities must be hex strings");
 }
 
-// src/ui.ts
+// authentication/wallet/kit/src/ui.ts
 var CONNECT_DESIGNS = ["regular", "space", "cyberpunk", "gta", "bossclub"];
 function namedDesign(design) {
   return design && design !== "regular" && CONNECT_DESIGNS.includes(design) ? design : null;
@@ -931,11 +931,13 @@ function openConfirmation(walletOrigin, confirmId, cancel, theme) {
   overlay.appendChild(host);
   document.body.appendChild(overlay);
 }
-function openExport(walletOrigin, address, theme) {
-  const styles = THEMES[theme === "dark" ? "dark" : "light"];
+function openExport(walletOrigin, address, theme, design) {
+  const named = namedDesign(design);
+  const styles = named ? { ...THEMES.dark, ...DESIGN_FRAMES[named] } : THEMES[theme === "dark" ? "dark" : "light"];
   const query = new URLSearchParams({ embed: "1", origin: window.location.origin });
   if (address) query.set("address", address);
   if (theme === "dark") query.set("theme", "dark");
+  if (named) query.set("design", named);
   const url = `${walletOrigin}${PATHS.export}?${query}`;
   const overlay = document.createElement("div");
   overlay.style.cssText = styles.overlay;
@@ -1041,7 +1043,7 @@ function openAccountMenu(anchor, options) {
   return close;
 }
 
-// src/client.ts
+// authentication/wallet/kit/src/client.ts
 var METHODS = {
   google: "google",
   email_passwordless: "email",
@@ -1251,7 +1253,8 @@ var PlaynanceAuthClient = class {
     openExport(
       __privateGet(this, _walletOrigin),
       __privateGet(this, _state2).status === "connected" ? __privateGet(this, _state2).address : void 0,
-      __privateMethod(this, _PlaynanceAuthClient_instances, dialogTheme_fn).call(this)
+      __privateMethod(this, _PlaynanceAuthClient_instances, dialogTheme_fn).call(this),
+      __privateGet(this, _uiConfig).design
     );
   }
   /**
@@ -1760,7 +1763,7 @@ function writeExternal(value) {
   }
 }
 
-// src/index.ts
+// authentication/wallet/kit/src/index.ts
 function init(options) {
   return new PlaynanceAuthClient(options);
 }

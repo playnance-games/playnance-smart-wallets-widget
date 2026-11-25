@@ -86,7 +86,7 @@ export declare function openConfirmation(walletOrigin: string, confirmId: string
  * wallet origin (`export.html?embed=1`); the private key is shown only inside
  * that iframe and never reaches this page.
  */
-export declare function openExport(walletOrigin: string, address?: string, theme?: ConnectDialogTheme): void;
+export declare function openExport(walletOrigin: string, address?: string, theme?: ConnectDialogTheme, design?: ConnectDesign): void;
 /**
  * The menu under a mounted button while the user is connected: who is signed
  * in, the wallet address, "Export private key" and "Sign out". Returns a

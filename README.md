@@ -18,6 +18,34 @@ Login and wallet for any site. The kit gives your page a sign-in button and an E
 
 Without `chains`, the kit uses Playblock (chain id `1829`). To use other chains, pass `chains: [{ chainId, rpcUrl, ... }]`; the first one is the default.
 
+## Choosing a theme
+
+Two settings control the look of the connect dialog and the sign-in page. Set them in `init` under `uiConfig`:
+
+```js
+const auth = PlaynanceAuth.init({
+  clientId: "your-client-id",
+  walletUrl: "https://wallet.example.com",
+  partnerRef: "YOUR_PARTNER_REF",
+  uiConfig: { mode: "dark", design: "regular" },
+})
+```
+
+| Field | Values | What it does |
+| --- | --- | --- |
+| `mode` | `"light"` (default), `"dark"` | Light or dark colors. Used by the `regular` design. |
+| `design` | `"regular"` (default), `"space"`, `"cyberpunk"`, `"gta"`, `"bossclub"` | The card's look. `regular` follows `mode`. The other four have a fixed look and ignore `mode`. Any other value is treated as `regular`. |
+
+The design applies to the connect modal, to single-method connects (`connectTo`), and to the private-key export page.
+
+To switch theme at runtime, for example from a site's theme toggle, call `setUiConfig`. It merges into the current config and takes effect the next time the dialog opens:
+
+```js
+auth.setUiConfig({ mode: "light" })   // or { design: "space" }
+```
+
+`connectDialogTheme` is deprecated; use `uiConfig.mode` instead. Only `mode` and `design` exist. There is no field for title text, custom colors, logos or promotional content.
+
 ## Campaign attribution
 
 Pass `attribution` to `init` to send campaign ids with Playblock's `/signin` call. Read them on the site's page and pass the values in. The kit forwards only these fields, and only when they have a value: `clientId` (Google Analytics client id), `sessionId` (GA4 session id), `fbclid`, `fbp`, `scid`, `scClickId`, `tblci` and `pwaId`. Empty values and any other keys are left out. `/signin/verify` is unchanged.
