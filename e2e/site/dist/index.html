@@ -1,0 +1,561 @@
+<!doctype html>
+<html lang="en" data-site-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Playnance Wallet Demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f4f4f5;
+        --surface: #ffffff;
+        --surface-2: #fafafa;
+        --text: #18181b;
+        --muted: #71717a;
+        --border: #e4e4e7;
+        --primary: #18181b;
+        --primary-fg: #fafafa;
+        --secondary: #ffffff;
+        --secondary-fg: #18181b;
+        --ring: #a1a1aa;
+        --log-bg: #18181b;
+        --log-fg: #e4e4e7;
+        --radius: 12px;
+        --shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 8px 24px rgb(0 0 0 / 0.06);
+      }
+      [data-site-theme="dark"] {
+        color-scheme: dark;
+        --bg: #09090b;
+        --surface: #18181b;
+        --surface-2: #27272a;
+        --text: #fafafa;
+        --muted: #a1a1aa;
+        --border: #3f3f46;
+        --primary: #fafafa;
+        --primary-fg: #18181b;
+        --secondary: #27272a;
+        --secondary-fg: #fafafa;
+        --ring: #52525b;
+        --log-bg: #09090b;
+        --log-fg: #d4d4d8;
+        --shadow: 0 1px 2px rgb(0 0 0 / 0.4), 0 12px 32px rgb(0 0 0 / 0.45);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font: 15px/1.5 ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 24px 16px 48px;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 32px;
+      }
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .brand h1 {
+        margin: 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      select,
+      input {
+        font: inherit;
+        color: inherit;
+      }
+      .theme-switch {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .theme-switch-label {
+        font-size: 0.875rem;
+        color: var(--muted);
+      }
+      #theme-switch {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 44px;
+        padding: 4px 12px 4px 6px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+      }
+      #theme-switch:hover {
+        border-color: var(--ring);
+      }
+      .theme-switch-track {
+        position: relative;
+        width: 36px;
+        height: 20px;
+        flex-shrink: 0;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--surface-2);
+      }
+      .theme-switch-thumb {
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: var(--primary);
+        transition: transform 0.15s ease;
+      }
+      #theme-switch[aria-checked="true"] .theme-switch-track {
+        background: var(--primary);
+        border-color: var(--primary);
+      }
+      #theme-switch[aria-checked="true"] .theme-switch-thumb {
+        background: var(--primary-fg);
+        transform: translateX(16px);
+      }
+      .theme-switch-value {
+        min-width: 2.6em;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-align: left;
+      }
+      .design-select {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .design-select label {
+        font-size: 0.875rem;
+        color: var(--muted);
+      }
+      #design-select {
+        min-height: 44px;
+        padding: 4px 12px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        background: var(--surface);
+        color: var(--text);
+        font-size: 0.875rem;
+        font-weight: 500;
+        box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+      }
+      #design-select:hover {
+        border-color: var(--ring);
+      }
+      .grid {
+        display: grid;
+        gap: 24px;
+      }
+      @media (min-width: 768px) {
+        .grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .grid .span-2 {
+          grid-column: 1 / -1;
+        }
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 24px;
+      }
+      .card h2 {
+        margin: 0 0 8px;
+        font-size: 1.125rem;
+        font-weight: 600;
+      }
+      .card .lead {
+        margin: 0 0 20px;
+        font-size: 0.875rem;
+        color: var(--muted);
+      }
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      button,
+      .btn {
+        min-height: 44px;
+        padding: 0 16px;
+        border-radius: 8px;
+        font: inherit;
+        font-weight: 500;
+        cursor: pointer;
+        border: 1px solid transparent;
+        transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+      }
+      button:focus-visible,
+      select:focus-visible,
+      input:focus-visible {
+        outline: 3px solid color-mix(in srgb, var(--ring) 45%, transparent);
+        outline-offset: 2px;
+      }
+      button:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: var(--primary-fg);
+        border-color: var(--primary);
+      }
+      .btn-primary:hover:not(:disabled) {
+        filter: brightness(1.05);
+      }
+      .btn-secondary {
+        background: var(--secondary);
+        color: var(--secondary-fg);
+        border-color: var(--border);
+      }
+      .btn-secondary:hover:not(:disabled) {
+        background: var(--surface-2);
+      }
+      #account {
+        min-width: 120px;
+      }
+      .widget-slot {
+        margin-bottom: 16px;
+      }
+      .profile {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+        padding: 12px 16px;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+      }
+      .profile[hidden] {
+        display: none;
+      }
+      .profile-avatar {
+        flex-shrink: 0;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: var(--border);
+      }
+      .profile-initials {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .profile-text {
+        min-width: 0;
+      }
+      .profile-name {
+        font-weight: 600;
+        overflow-wrap: anywhere;
+      }
+      .profile-email {
+        font-size: 0.8125rem;
+        color: var(--muted);
+        overflow-wrap: anywhere;
+      }
+      .profile {
+        flex-wrap: wrap;
+      }
+      .profile-details {
+        flex-basis: 100%;
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 4px 16px;
+        margin: 4px 0 0;
+        font-size: 0.8125rem;
+      }
+      .profile-details[hidden] {
+        display: none;
+      }
+      .external-details {
+        margin: 0 0 16px;
+        padding: 12px 16px;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+      }
+      .profile-details dt {
+        color: var(--muted);
+      }
+      .profile-details dd {
+        margin: 0;
+        overflow-wrap: anywhere;
+      }
+      .address-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin: 12px 0;
+      }
+      #address {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.8125rem;
+        word-break: break-all;
+        padding: 8px 12px;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        flex: 1;
+        min-width: 200px;
+      }
+      #balance-list,
+      #out {
+        margin: 12px 0 0;
+        padding: 16px;
+        border-radius: 8px;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 0.8125rem;
+        line-height: 1.5;
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      #balance-list {
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        min-height: 72px;
+      }
+      #out {
+        background: var(--log-bg);
+        color: var(--log-fg);
+        min-height: 120px;
+        max-height: 280px;
+        overflow: auto;
+      }
+      .chain-tag {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        color: var(--muted);
+      }
+      #transfer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        align-items: center;
+        margin-top: 16px;
+      }
+      #transfer select,
+      #transfer input {
+        min-height: 44px;
+        padding: 0 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background: var(--surface);
+      }
+      #transfer input {
+        flex: 1;
+        min-width: 140px;
+      }
+      #transfer-result {
+        margin: 12px 0 0;
+        font-size: 0.875rem;
+        color: var(--muted);
+        overflow-wrap: anywhere;
+      }
+      .coins-hint {
+        margin: 8px 0 0;
+        font-size: 0.75rem;
+        color: var(--muted);
+      }
+      #sign-in-loader {
+        position: fixed;
+        inset: 0;
+        z-index: 2147483644;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: color-mix(in srgb, var(--bg) 72%, transparent);
+      }
+      #sign-in-loader[hidden] {
+        display: none;
+      }
+      .sign-in-loader-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0;
+        padding: 16px 20px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+        color: var(--text);
+        box-shadow: var(--shadow);
+        font-weight: 500;
+      }
+      .sign-in-spinner {
+        width: 18px;
+        height: 18px;
+        flex-shrink: 0;
+        border: 2px solid var(--border);
+        border-top-color: var(--text);
+        border-radius: 50%;
+        animation: sign-in-spin 0.7s linear infinite;
+      }
+      @keyframes sign-in-spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        button,
+        .theme-switch-thumb {
+          transition: none;
+        }
+        .sign-in-spinner {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="sign-in-loader" hidden>
+      <p class="sign-in-loader-card" role="status">
+        <span class="sign-in-spinner" aria-hidden="true"></span>
+        <span id="sign-in-loader-text">Loading...</span>
+      </p>
+    </div>
+    <div class="wrap">
+      <header>
+        <div class="brand">
+          <h1>Playnance Wallet</h1>
+        </div>
+        <div class="header-actions">
+          <div class="design-select">
+            <label for="design-select">Theme:</label>
+            <select id="design-select">
+              <option value="regular">Regular</option>
+              <option value="space">Space</option>
+              <option value="cyberpunk">Cyber Punk</option>
+              <option value="gta">GTA</option>
+              <option value="bossclub">Boss Club</option>
+            </select>
+          </div>
+          <div class="theme-switch">
+            <span class="theme-switch-label" id="theme-switch-label">Theme</span>
+            <button type="button" id="theme-switch" role="switch" aria-labelledby="theme-switch-label" aria-checked="false">
+              <span class="theme-switch-track" aria-hidden="true"><span class="theme-switch-thumb"></span></span>
+              <span class="theme-switch-value">Light</span>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <div class="grid">
+        <section class="card span-2" aria-labelledby="signin-heading">
+          <h2 id="signin-heading">Sign in</h2>
+          <p class="lead">Modal flow and no-modal starters use the same wallet origin and allow-list.</p>
+          <div class="profile" id="profile" hidden>
+            <span id="profile-avatar-slot"></span>
+            <div class="profile-text">
+              <div class="profile-name" id="profile-name"></div>
+              <div class="profile-email" id="profile-email"></div>
+            </div>
+            <dl class="profile-details" id="profile-details" hidden></dl>
+          </div>
+          <div class="widget-slot">
+            <button type="button" id="account" class="btn btn-primary">Connect</button>
+          </div>
+          <dl class="profile-details external-details" id="external-details" hidden></dl>
+          <div class="btn-row">
+            <button type="button" id="connect" class="btn btn-primary">Connect (modal)</button>
+            <button type="button" id="connect-google" class="btn btn-secondary">Google only (no-modal)</button>
+            <button type="button" id="connect-email" class="btn btn-secondary">Email only (no-modal)</button>
+            <button type="button" id="connect-sms" class="btn btn-secondary">SMS only (no-modal)</button>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="wallet-heading">
+          <h2 id="wallet-heading">Wallet</h2>
+          <p class="lead">
+            Chain: <span class="chain-tag" id="chain-name">the chain</span>
+          </p>
+          <h3 class="visually-hidden">Address</h3>
+          <div class="address-row">
+            <code id="address">not connected</code>
+            <button type="button" id="copy-address" class="btn btn-secondary" disabled>Copy address</button>
+          </div>
+          <p class="coins-hint">Playblock: PBG, USDP, GCOIN after you connect.</p>
+          <button type="button" id="balances" class="btn btn-secondary" disabled>Show balances</button>
+          <pre id="balance-list">Connect, then press Show balances.</pre>
+        </section>
+
+        <section class="card" aria-labelledby="actions-heading">
+          <h2 id="actions-heading">Actions</h2>
+          <p class="lead">Signing and transactions open the wallet confirmation window when required.</p>
+          <div class="btn-row">
+            <button type="button" id="sign" class="btn btn-secondary" disabled>Sign a message</button>
+            <button type="button" id="typed" class="btn btn-secondary" disabled>Sign typed data</button>
+            <button type="button" id="send" class="btn btn-secondary" disabled>Send 0.01</button>
+            <button type="button" id="approve-token" class="btn btn-secondary" disabled>Approve a token</button>
+            <button type="button" id="export" class="btn btn-secondary" disabled>Export private key</button>
+            <button type="button" id="logout" class="btn btn-secondary" disabled>Sign out</button>
+          </div>
+        </section>
+
+        <section class="card span-2" aria-labelledby="playblock-heading">
+          <h2 id="playblock-heading">Send on Playblock</h2>
+          <p class="lead">Transfer PBG or listed tokens through the kit.</p>
+          <form id="transfer">
+            <select id="asset" aria-label="Coin" disabled></select>
+            <input id="to" aria-label="Recipient" placeholder="Recipient 0x…" disabled />
+            <input id="amount" aria-label="Amount" placeholder="Amount" disabled />
+            <button type="submit" class="btn btn-primary" disabled>Send</button>
+          </form>
+          <p id="transfer-result"></p>
+        </section>
+
+        <section class="card span-2" aria-labelledby="log-heading">
+          <h2 id="log-heading">Result log</h2>
+          <p class="lead">Latest kit call result for automation and manual checks.</p>
+          <pre id="out">Loading…</pre>
+        </section>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/gh/playnance-games/playnance-smart-wallets-widget@v0.5.2/dist/playnance-auth.js"></script>
+    <script src="/site.js"></script>
+  </body>
+</html>

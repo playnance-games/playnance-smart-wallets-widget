@@ -1,0 +1,24 @@
+{
+  "name": "@playnance/auth",
+  "version": "0.5.2",
+  "description": "Playnance login dialog and wallet provider for any site",
+  "license": "UNLICENSED",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "unpkg": "./dist/playnance-auth.js",
+  "jsdelivr": "./dist/playnance-auth.js",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./playnance-auth.js": "./dist/playnance-auth.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false
+}
